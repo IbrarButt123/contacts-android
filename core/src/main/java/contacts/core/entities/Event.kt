@@ -387,7 +387,7 @@ fun EventDate.toDate(): Date {
  * a year being less than dates with a year. E.G. `"--11-11" < "2020-10-10"` is true.
  */
 internal fun EventDate.toDbString(): String =
-    "${year ?: "-"}-${monthInDb.toDoubleDigitStr()}-${dayOfMonth.toDoubleDigitStr()}"
+    "${monthInDb.toDoubleDigitStr()}/${dayOfMonth.toDoubleDigitStr()}/${year ?:"-"}"
 
 /**
  * Returns this int as a string prefixed by 0 if it is a single digit.
