@@ -438,6 +438,5 @@ fun Date.toWhereString(ignoreYear: Boolean = false): String =
 // community should file bugs if they see any issues. Though, I should probably check this
 // again when we get closer to v1.0.0.
 
-//Change the date format.
 private val DATE_FORMAT = SimpleDateFormat("yyyy-dd-MM", Locale.US)
 private val DATE_FORMAT_NO_YEAR = SimpleDateFormat("--dd-MM", Locale.US)
