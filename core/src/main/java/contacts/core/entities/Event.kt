@@ -4,9 +4,11 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Parcelable
 import android.provider.ContactsContract.CommonDataKinds
+import android.util.Log
 import contacts.core.Redactable
 import contacts.core.entities.EventEntity.Type
 import kotlinx.parcelize.Parcelize
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -303,6 +305,7 @@ data class EventDate internal constructor(
             // We could parse the string ourselves and easily get the year, month, and day.
             // However, validating whether the date is actually valid or not is another story.
             // We won't write code that's already been written. We'll use SimpleDateFormat =)
+
             val noYear = it.startsWith("-")
             val date = try {
                 if (noYear) {
@@ -438,5 +441,5 @@ fun Date.toWhereString(ignoreYear: Boolean = false): String =
 // community should file bugs if they see any issues. Though, I should probably check this
 // again when we get closer to v1.0.0.
 
-private val DATE_FORMAT = SimpleDateFormat("yyyy-dd-MM", Locale.US)
-private val DATE_FORMAT_NO_YEAR = SimpleDateFormat("--dd-MM", Locale.US)
+private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+private val DATE_FORMAT_NO_YEAR = SimpleDateFormat("--MM-dd", Locale.getDefault())
