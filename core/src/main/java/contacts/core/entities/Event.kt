@@ -307,7 +307,7 @@ data class EventDate internal constructor(
             // We won't write code that's already been written. We'll use SimpleDateFormat =)
 
             val noYear = it.startsWith("-")
-            val date = try {
+            var date = try {
                 if (noYear) {
                     DATE_FORMAT_NO_YEAR.parse(it)
                 } else {
@@ -316,7 +316,6 @@ data class EventDate internal constructor(
             } catch (pe: ParseException) {
                 null
             }
-
             // I know we can do date?.let. I like this better in this case because this is already
             // inside a let... Don't like it? SUE ME!
             return if (date != null) from(date, noYear) else null
@@ -390,19 +389,20 @@ fun EventDate.toDate(): Date {
  * a year being less than dates with a year. E.G. `"--11-11" < "2020-10-10"` is true.
  */
 internal fun EventDate.toDbString(): String =
-    "${monthInDb.toDoubleDigitStr()}/${dayOfMonth.toDoubleDigitStr()}/${year ?:"-"}"
+    "${year ?: "-"}-${monthInDb.toDoubleDigitStr()}-${dayOfMonth.toDoubleDigitStr()}"
 
+internal fun EventDate.customFormat():String =
+    "${monthInDb.toDoubleDigitStr()}/${dayOfMonth.toDoubleDigitStr() }/${year ?: "-" }"
 /**
  * Returns this int as a string prefixed by 0 if it is a single digit.
  */
 private fun Int.toDoubleDigitStr(): String = toString().padStart(2, '0')
-
 /**
  * Returns the string representation of this [EventDate].
  *
  * The month used here is the [EventDate.monthInDb], which is 1-based.
  */
-fun EventDate.toDisplayString(): String = toDbString().let {
+fun EventDate.toDisplayString(): String = customFormat().let {
     if (isRedacted) {
         it.redact()
     } else {
